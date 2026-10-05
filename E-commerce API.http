@@ -1,0 +1,58 @@
+@baseUrl = http://localhost:5078
+@token = paste-jwt-token-here
+
+### Register a customer
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "customer@example.com",
+  "password": "Customer123!",
+  "name": "Demo Customer"
+}
+
+### Login
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "customer@example.com",
+  "password": "Customer123!"
+}
+
+### Search and filter products
+GET {{baseUrl}}/api/products?search=mouse&category=Electronics&sort=price_asc&page=1&pageSize=20
+
+### Get product by ID
+GET {{baseUrl}}/api/products/1
+
+### Add a product to the current customer's cart
+POST {{baseUrl}}/api/cart/items
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "productId": 1,
+  "quantity": 2
+}
+
+### View cart
+GET {{baseUrl}}/api/cart
+Authorization: Bearer {{token}}
+
+### Checkout (validates stock, calculates total, creates order, reduces inventory)
+POST {{baseUrl}}/api/orders
+Authorization: Bearer {{token}}
+
+### List my orders
+GET {{baseUrl}}/api/orders/my-orders
+Authorization: Bearer {{token}}
+
+### Admin: update order status
+PUT {{baseUrl}}/api/orders/1/status
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "status": "Processing"
+}
